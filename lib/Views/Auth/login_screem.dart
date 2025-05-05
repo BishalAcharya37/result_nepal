@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:result_nepal/Views/Auth/RegisterScreen.dart';
+import 'package:result_nepal/Views/Auth/forget_screen.dart';
 import 'package:result_nepal/Views/Dashboard/homeScreen.dart';
 import 'package:result_nepal/utils/colors.dart';
 
@@ -123,7 +124,7 @@ class LoginScreen extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: InkWell(
                   onTap: () {
-                    Get.to(() => Placeholder()); // Replace with your screen
+                    Get.to(() => ForgetScreen()); // Replace with your screen
                   },
                   child: Text(
                     "Forgot Password?",

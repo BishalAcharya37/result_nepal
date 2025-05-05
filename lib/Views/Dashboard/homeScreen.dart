@@ -1,48 +1,29 @@
+import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:result_nepal/Custom/bottomnavy.dart';
 import 'package:result_nepal/Views/Auth/login_screem.dart';
+import 'package:result_nepal/Views/Dashboard/detail_screen.dart';
 import 'package:result_nepal/Views/Dashboard/profile_screen.dart';
+import 'package:result_nepal/utils/colors.dart';
 import 'package:result_nepal/utils/custom_text_style.dart';
 
 class HomeScreen extends StatelessWidget {
-  final RxInt currentIndex = 0.obs; // Made this observable
-  final List<String> itemNames = [
-    "courses",
-    "softwareDevelopment",
-    "digitalMarketing",
-    "courier",
-    "travelAgency",
-    "newsPortal",
-    "photoEditor",
-    "videoCreation",
-    "postBoost",
-    "mart",
-    "lifeInsurance",
-    "intern"
-  ];
-
   HomeScreen({super.key});
-
-  void onItemTapped(int index) {
-    currentIndex.value = index; // Update the observable value
-    if (index == 1) {
-      Get.to(() => HomeScreen());
-    } else if (index == 2) {
-      Get.to(() => ProfileScreen());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Obx(() => BottomNavBar(
-            currentIndex: currentIndex.value,
-            onTap: onItemTapped,
-          )),
+      bottomNavigationBar: BottomNavBar(
+        onTap: (index) {
+          if (index == 1) {
+            Get.to(() => ProfileScreen()); // Go to Profile when tapped
+          }
+        },
+      ),
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(70),
         child: AppBar(
           elevation: 0,
           title: Row(
@@ -54,29 +35,20 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    Image.asset(
-                      "assets/icons/Avatar.png",
-                      width: 50,
-                      height: 50,
+                    const CircleAvatar(
+                      radius: 16,
+                      backgroundImage: AssetImage("assets/icons/Avatar.png"),
                     ),
-                    const SizedBox(width: 8),
-                    Text(
+                    const SizedBox(width: 20),
+                    const Text(
                       "loginRegister",
-                      style: TextStyle(fontSize: 18),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
               ),
-              Row(
-                children: [
-                  Image.asset(
-                    "assets/icons/bell.png",
-                    width: 30,
-                    height: 30,
-                  ),
-                  const SizedBox(width: 5),
-                ],
-              ),
+              Image.asset("assets/icons/bell.png", width: 50, height: 50),
             ],
           ),
         ),
@@ -85,36 +57,50 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
-            Row(
-              children: [
-                const SizedBox(width: 8),
-                Image.asset(
-                  "assets/icons/mic.png",
-                  width: 30,
-                  height: 30,
+            TextField(
+              decoration: InputDecoration(
+                hintText: 'Search...',
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: AppColors.buttonColor),
                 ),
-                const SizedBox(width: 8),
-                Image.asset(
-                  "assets/icons/filter.png",
-                  width: 30,
-                  height: 30,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: AppColors.buttonColor),
                 ),
-              ],
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                      const BorderSide(color: AppColors.buttonColor, width: 2),
+                ),
+                suffixIcon:
+                    const Icon(Icons.search, color: AppColors.buttonColor),
+              ),
             ),
             const SizedBox(height: 10),
-            CarouselSlider(
-              items: [
-                Image.asset("assets/common/software.jpg", fit: BoxFit.fill),
-                Image.asset("assets/common/digital.jpg", fit: BoxFit.fill),
-                Image.asset("assets/common/courses.jpg", fit: BoxFit.fill),
-                Image.asset("assets/common/video.jpg", fit: BoxFit.fill),
-              ],
-              options: CarouselOptions(
-                height: 180,
-                enlargeCenterPage: true,
-                autoPlay: true,
-                enableInfiniteScroll: true,
-                viewportFraction: 1.0,
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.buttonColor, width: 2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: CarouselSlider(
+                  items: [
+                    Image.asset("assets/common/carousel.jpg",
+                        fit: BoxFit.cover, width: double.infinity),
+                  ],
+                  options: CarouselOptions(
+                    height: 160,
+                    enlargeCenterPage: true,
+                    autoPlay: true,
+                    enableInfiniteScroll: true,
+                    viewportFraction: 1.0,
+                  ),
+                ),
               ),
             ),
             Padding(
@@ -122,44 +108,27 @@ class HomeScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("ourServices", style: CustomTextStyles.f18W500())
+                  Text("All Results", style: CustomTextStyles.f18W500())
                 ],
               ),
             ),
             const SizedBox(height: 15),
             Expanded(
               child: GridView.builder(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   crossAxisSpacing: 40,
                   mainAxisSpacing: 40,
                 ),
-                itemCount: itemNames.length,
+                itemCount: 4, // your item count
                 itemBuilder: (context, index) {
-                  final List<Widget> screens = [HomeScreen(), ProfileScreen()];
-
-                  final List<String> imagePaths = [
-                    "assets/icons/course.png",
-                    "assets/icons/software.png",
-                    "assets/icons/digital.png",
-                    "assets/icons/car.png",
-                    "assets/icons/travel.png",
-                    "assets/icons/news.png",
-                    "assets/icons/photo.png",
-                    "assets/icons/video.png",
-                    "assets/icons/boost.png",
-                    "assets/icons/mart.png",
-                    "assets/icons/insurance.png",
-                    "assets/icons/intern.png",
-                  ];
-
                   return Column(
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Get.to(() => screens[index % screens.length]);
+                          // Navigate to DetailScreen when a grid item is tapped
+                          Get.to(
+                              () => DetailScreen()); // Navigate to DetailScreen
                         },
                         child: Container(
                           padding: const EdgeInsets.all(10),
@@ -171,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                             height: 40,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage(imagePaths[index]),
+                                image: AssetImage("assets/common/ble.png"),
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -179,12 +148,10 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 5),
-                      Text(
-                        itemNames[index],
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      const Text(
+                        "Result Type",
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

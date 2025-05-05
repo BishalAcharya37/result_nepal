@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BottomNavBar extends StatelessWidget {
-  final int currentIndex;
+  final RxInt currentIndex = 0.obs;  // Define the controller inside BottomNavBar
+  
   final Function(int) onTap;
 
-  const BottomNavBar({
+  BottomNavBar({
     super.key,
-    required this.currentIndex,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final List<String> labels = ['Home', 'Share Files', 'Meeting', 'Profile'];
+
+    // Only two items now
+    final List<String> labels = ['Home', 'Profile'];
     final List<IconData> icons = [
       Icons.home,
-      Icons.file_copy,
-      Icons.people,
       Icons.account_circle,
     ];
 
@@ -32,40 +33,33 @@ class BottomNavBar extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: List.generate(4, (index) {
+        children: List.generate(2, (index) {
           return GestureDetector(
-            onTap: () => onTap(index),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6), // Space around the icon and text
-                  decoration: BoxDecoration(
-
-                      // Always blue // Background color for both icon and text
-                      // Circular background
-                      ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        icons[index],
-                        // Always blue
-                      ),
-                      if (currentIndex == index)
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8), // Space between icon and label
-                          child: Text(
-                            labels[index],
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                    ],
+            onTap: () {
+              currentIndex.value = index; // Change index on tap
+              onTap(index); // Trigger the onTap method passed from parent
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              child: Row(
+                children: [
+                  Icon(
+                    icons[index],
+                    color: Colors.white,
                   ),
-                ),
-              ],
+                  if (currentIndex.value == index) 
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        labels[index],
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           );
         }),
