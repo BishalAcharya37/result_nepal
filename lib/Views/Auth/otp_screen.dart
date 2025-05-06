@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'package:result_nepal/Views/Auth/login_screem.dart';
-import 'package:result_nepal/Views/Auth/otp_screen.dart';
+import 'package:result_nepal/Views/Auth/set_password.dart';
 import 'package:result_nepal/utils/colors.dart';
 import 'package:result_nepal/utils/custom_text_style.dart';
 
-class ForgetScreen extends StatelessWidget {
-  ForgetScreen({super.key});
+class Otp extends StatelessWidget {
+  Otp({super.key});
 
   final TextEditingController emailController = TextEditingController();
 
@@ -21,6 +22,7 @@ class ForgetScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
                     "assets/common/logo.png",
@@ -34,21 +36,11 @@ class ForgetScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              Center(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Image.asset(
-                    "assets/common/forgetpassword.png",
-                    height: 300,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               const Padding(
-                padding: EdgeInsets.only(top: 10.0, left: 5),
+                padding: EdgeInsets.only(top: 10.0),
                 child: Text(
-                  "Forgot Password",
+                  "Confirm Otp",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -57,46 +49,47 @@ class ForgetScreen extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               const Text(
-                "Please enter your email Id to reset password",
+                "Please check your inbox and enter 6 digit OTP",
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 15,
                 ),
               ),
-              const SizedBox(height: 20),
-              const Text(
-                "Enter Your Email Address",
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 15,
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                child: Center(
+                  child: PinCodeTextField(
+                    appContext: context,
+                    length: 6,
+                    textStyle: const TextStyle(color: Colors.black),
+                    pinTheme: PinTheme(
+                      shape: PinCodeFieldShape.box,
+                      borderRadius: BorderRadius.circular(40),
+                      fieldHeight: 50,
+                      fieldWidth: 50,
+                      activeFillColor: Colors.white,
+                      selectedFillColor: Colors.white,
+                      inactiveFillColor: Colors.white,
+                      activeColor: AppColors.primaryColor,
+                      selectedColor: AppColors.primaryColor,
+                      inactiveColor: AppColors.lGrey,
+                    ),
+                    cursorColor: Colors.black,
+                    keyboardType: TextInputType.number,
+                    animationDuration: const Duration(milliseconds: 300),
+                    enableActiveFill: true,
+                    onCompleted: (value) {},
+                    onChanged: (value) {
+                      print("Changed: $value");
+                    },
+                  ),
                 ),
               ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  hintText: "Please Enter Your Email",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(color: Colors.grey),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(color: Colors.blue),
-                  ),
-                ),
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to(() => Otp());
+                    Get.to(() => Setpassword());
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -106,13 +99,32 @@ class ForgetScreen extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    "Reset Password",
+                    "Verify",
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
                     ),
                   ),
                 ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Didn't get a code?",
+                    style: CustomTextStyles.f16W600(),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      // Retry logic here
+                    },
+                    child: Text(
+                      "Try another way",
+                      style: CustomTextStyles.f16W600(),
+                    ),
+                  )
+                ],
               ),
               const SizedBox(height: 20),
               Align(

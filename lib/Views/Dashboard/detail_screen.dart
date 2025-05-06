@@ -56,10 +56,19 @@ class DetailScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
 
-              Text(
-                "Enter Your Symbol Number",
-                style: CustomTextStyles.f18W600(color: AppColors.buttonColor),
+              RichText(
+                text: TextSpan(
+                  text: "Enter Your Symbol Number ",
+                  style: CustomTextStyles.f18W600(color: AppColors.buttonColor),
+                  children: const [
+                    TextSpan(
+                      text: "*",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ],
+                ),
               ),
+
               SizedBox(height: 10), // Space between title and the date picker
               // Space between title and the text fields
 
@@ -83,10 +92,19 @@ class DetailScreen extends StatelessWidget {
               SizedBox(height: 20), // Space between form fields
 
               // Text "DOB"
-              Text(
-                "DOB",
-                style: CustomTextStyles.f18W600(color: AppColors.buttonColor),
+              RichText(
+                text: TextSpan(
+                  text: "DOB ",
+                  style: CustomTextStyles.f18W600(color: AppColors.buttonColor),
+                  children: const [
+                    TextSpan(
+                      text: "*",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ],
+                ),
               ),
+
               SizedBox(height: 10), // Space between title and the date picker
 
               // GestureDetector for DOB field (to show date picker)

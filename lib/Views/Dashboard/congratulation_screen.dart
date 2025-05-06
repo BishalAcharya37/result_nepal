@@ -18,13 +18,31 @@ class CongratulationScreen extends StatelessWidget {
         padding: EdgeInsets.all(10),
         child: Column(
           children: [
-            Image.asset('assets/common/logo.png'),
+            Image.asset('assets/common/congratulation.png'),
             SizedBox(height: 20),
             Text(
               'Santoshi Adhikari',
               style: CustomTextStyles.f24W600(color: AppColors.buttonColor),
             ),
-            SizedBox(height: 400),
+            Image.asset('assets/common/fireworks.png'),
+            Image.asset('assets/common/label.png'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/common/peep1.png',
+                  height: 100,
+                  fit: BoxFit.contain,
+                ),
+                SizedBox(width: 10),
+                Image.asset(
+                  'assets/common/peep2.png',
+                  height: 100,
+                  fit: BoxFit.contain,
+                ),
+              ],
+            ),
+            SizedBox(height: 200),
             CustomElevatedButton(
                 title: 'Back to Home',
                 onTap: () {
